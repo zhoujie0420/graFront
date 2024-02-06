@@ -3,11 +3,11 @@ import networkConfiguration from "@/network/configuration";
 import usePeerStore from "@/store/peer";
 import {showToast} from "vant";
 
-export default function initializePeer (username) {
+export default function initializePeer (id) {
     let peerStore = usePeerStore();
 
     let {host, port, path} = {...networkConfiguration.server.peerServer};
-    let localPeer = new Peer(username, {host, port, path});
+    let localPeer = new Peer(id, {host, port, path});
 
     localPeer.on("connection", dataConnection => {
         console.log("localPeer on connection", dataConnection);
@@ -20,7 +20,6 @@ export default function initializePeer (username) {
         } else {
             dataConnection.on("data", data => {
                 console.log("dataConnection data", data);
-
                 //请求通话
                 if (data.instruction === peerStore.instruction.request) {
                     peerStore.dataConnection = dataConnection;

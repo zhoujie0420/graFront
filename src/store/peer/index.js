@@ -5,8 +5,29 @@ export default defineStore("peerStore", {
         return {
             /**
              * 本地对等体对象
+             * user_id
              */
             localPeer: undefined,
+            /**
+             * username
+             */
+            username: undefined,
+            /**
+             * role
+             */
+            role: undefined,
+            /**
+             * token
+             */
+            token: undefined,
+            /**
+             * phone
+             */
+            phone: undefined,
+            /**
+             * 是否登陆
+             */
+            is_login: false,
             /**
              * 正在通话的数据连接对象
              */

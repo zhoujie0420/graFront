@@ -56,13 +56,14 @@ function getInfo() {
     },
     success(resp) {
       if (resp.code === 200) {
+        peerStore.localPeer = resp.data.id;
+        peerStore.role = resp.data.role;
+        peerStore.phone = resp.data.phone;
         peerStore.username = resp.data.username;
         peerStore.is_login = true;
-        peerStore.phone = resp.data.phone;
-        peerStore.role = resp.data.role;
         router.push("/setting-view");
-        initializePeer(username.value);
-        initializeWebsocket(username.value,peerStore.role);
+        initializePeer(peerStore.localPeer);
+        initializeWebsocket(peerStore.localPeer);
       } else {
         console.log(resp.message)
       }
@@ -72,35 +73,9 @@ function getInfo() {
     }
   })
 }
-//
-//
-// const jwt_token = localStorage.getItem("jwt_token");
-// if (jwt_token) {
-//   peerStore.token = jwt_token;
-//   try {
-//     getInfo({
-//       success() {
-//         router.push("/setting-view");
-//         peerStore.pulling_info = false
-//       },
-//       error() {
-//         peerStore.pulling_info = false
-//       }
-//     });
-//     peerStore.pulling_info = false
-//   } catch (e) {
-//     console.log(e)
-//     peerStore.pulling_info = false
-//   }
-// } else {
-//   peerStore.pulling_info = false
-// }
+
 
 </script>
-
-
-<!-- 样式略 -->
-
 <style scoped>
 .login-container {
   max-width: 400px;

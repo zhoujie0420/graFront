@@ -10,30 +10,16 @@
     <van-search placeholder="请输入搜索关键词"/>
   </section>
 
-  <section v-if="friendStore.onlineList.length">
-    <van-divider>选择在线医生，轻触即可视频问诊</van-divider>
-    <section v-for="peerId of friendStore.onlineList"
-             :key="peerId">
-      <friend-card v-if="peerId === peerStore.localPeer.id">
-        {{ peerId }}(我)
-      </friend-card>
-      <friend-card v-else
-                   @click="jumpToVideoCallCallingView(peerId)">
-        {{ peerId }}
-      </friend-card>
-    </section>
-  </section>
 
   <section v-if="userInfos.length">
     <van-divider>轻触即可视频问诊</van-divider>
     <section v-for="info of userInfos"
              :key="info">
-      <friend-card @click="jumpToVideoCallCallingView(info.username)">
-        {{ info.username }} / {{ info.role }}
+      <friend-card @click="jumpToVideoCallCallingView(info.id)">
+        {{ info.username }} / {{ info.departmentName }}
       </friend-card>
     </section>
   </section>
-
 </template>
 
 <script setup>
