@@ -1,6 +1,6 @@
 <template>
   <section>
-    <van-nav-bar title="朋友"
+    <van-nav-bar title="视频问诊"
                  fixed
                  placeholder
                  safe-area-inset-top/>

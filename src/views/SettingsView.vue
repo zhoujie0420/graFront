@@ -3,8 +3,7 @@
     <van-nav-bar title="设置"
                  fixed
                  placeholder
-                 safe-area-inset-top
-    />
+                 safe-area-inset-top/>
   </section>
 
   <section>

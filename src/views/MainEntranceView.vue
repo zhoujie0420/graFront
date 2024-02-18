@@ -46,9 +46,8 @@
 
       <van-tabbar-item icon="friends-o"
                        to="/friends-list-view">
-        朋友
+        视频问诊
       </van-tabbar-item>
-
       <van-tabbar-item icon="setting-o"
                        to="/setting-view">
         设置
