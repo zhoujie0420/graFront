@@ -1,41 +1,33 @@
 <template>
   <section>
-    <van-nav-bar title="问诊结果编辑"
-                 fixed
-                 placeholder
-                 safe-area-inset-top
-    />
+    <van-nav-bar title="问诊结果编辑" fixed placeholder safe-area-inset-top />
   </section>
-
 
   <section>
-    <van-search placeholder="请输入搜索关键词"/>
+    <van-search v-model="searchKeyword" placeholder="请输入搜索关键词" />
   </section>
-
 
   <section v-if="records.length">
     <section v-for="info of records" :key="info">
       <record-card @click="showDetail(info.id)">
         <div class="record-info">
           <p class="date">{{ info.consultationDate }}</p>
-          <p class="status">
-            {{ info.status === 1 ? '已完成' : '未完成' }}
-          </p>
+          <p class="status">{{ info.status === 1 ? '已完成' : '未完成' }}</p>
         </div>
       </record-card>
       <section v-if="show[info.id] === 1">
-        <van-cell-group inset>
-            <van-cell v-if="peerStore.role === 1" title="医生姓名" :value="info.otherName"/>
-          <van-cell  v-if="peerStore.role === 2" title="患者姓名" :value="info.otherName"/>
-          <van-cell title="诊断结果" :label="info.diagnosis"/>
-          <van-cell title="处方" :label="info.prescription"/>
-          <van-cell title="问诊回放" :value="info.videoUrl"/>
-        </van-cell-group>
+        <van-field v-if="peerStore.role === 1" v-model="info.otherName" label="医生姓名" placeholder="请输入医生姓名" readonly />
+        <van-field v-if="peerStore.role === 2" v-model="info.otherName" label="患者姓名" placeholder="请输入患者姓名" readonly />
+        <van-field v-model="info.diagnosis" label="诊断结果" placeholder="请输入诊断结果" />
+        <van-field v-model="info.prescription" label="处方" placeholder="请输入处方" />
+        <van-field v-model="info.videoUrl" label="问诊回放" placeholder="请输入问诊回放链接" readonly/>
+
+        <van-button type="primary" @click="updateRecord(info)">提交</van-button>
       </section>
     </section>
   </section>
-
 </template>
+
 
 <script setup>
 import $ from "jquery";
@@ -51,9 +43,31 @@ const show = ref({});
 
 function showDetail(id) {
   show.value[id] = show.value[id] === 1 ? 0 : 1;
-
 }
 
+function updateRecord(info) {
+  $.ajax({
+    url: `${apiUrl}/api/record/updateRecord/`,
+    type: "post",
+    data: {
+      id: info.id,
+      diagnosis: info.diagnosis,
+      prescription: info.prescription,
+      videoUrl: info.videoUrl,
+    },
+    headers: {
+      Authorization: "Bearer " + peerStore.token,
+    },
+    success(resp) {
+      if (resp.code === 200) {
+        showToast("更新成功");
+        getRecords();
+      } else {
+        showToast(resp.message);
+      }
+    },
+  });
+}
 function getRecords() {
   let peerStore = usePeerStore();
   $.ajax({
@@ -99,5 +113,17 @@ function getRecords() {
 
 .record-info .status {
   text-align: right;
+}
+
+/* 样式可以根据自己的需求进行调整 */
+.record-info {
+  display: flex;
+  justify-content: space-between;
+}
+.date {
+  font-weight: bold;
+}
+.status {
+  color: #999;
 }
 </style>
