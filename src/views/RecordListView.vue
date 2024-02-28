@@ -22,7 +22,8 @@
         <van-field v-model="info.prescription" label="处方" placeholder="请输入处方" />
         <van-field v-model="info.videoUrl" label="问诊回放" placeholder="请输入问诊回放链接" readonly/>
 
-        <van-button type="primary" @click="updateRecord(info)">提交</van-button>
+        <van-button class="right-aligned" type="primary" @click="updateRecord(info)">提交</van-button>
+
       </section>
     </section>
   </section>
@@ -126,4 +127,10 @@ function getRecords() {
 .status {
   color: #999;
 }
+.right-aligned {
+  width: 120px;
+  display: block;
+  margin: 0 auto;
+}
+
 </style>
