@@ -1,9 +1,11 @@
 <template>
   <section>
-    <van-nav-bar title="问诊结果编辑" fixed placeholder safe-area-inset-top />
-  </section>
-
-  <section>
+    <van-nav-bar
+        title="标题"
+        left-text="返回"
+        left-arrow
+        @click-left="goBack"
+    />
     <van-search v-model="searchKeyword" placeholder="请输入搜索关键词" />
   </section>
 
@@ -36,12 +38,16 @@ import {apiUrl} from "../../config";
 import {showToast} from "vant";
 import usePeerStore from "@/store/peer";
 import {ref} from "vue";
+import router from "@/router";
 
 let peerStore = usePeerStore();
 const records = ref([]); // 创建响应式的userInfos
 getRecords()
 const show = ref({});
 
+function goBack(){
+  router.go(-1);
+}
 function showDetail(id) {
   show.value[id] = show.value[id] === 1 ? 0 : 1;
 }

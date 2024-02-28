@@ -1,31 +1,17 @@
 <template>
   <section>
-    <van-notify v-model:show="peerStore.activateNotification"
-                background="rgb(0,0,0,.7)">
+    <van-notify v-model:show="peerStore.activateNotification" background="rgb(0,0,0,.7)">
       <section>
         <section>
           {{ peerStore.dataConnection?.peer }} 邀您视频通话
         </section>
-
         <van-divider/>
-
         <section>
-          <van-button type="primary"
-                      size="small"
-                      @click="acceptVideoCall">
-            接受
-          </van-button>
-
+          <van-button type="primary" size="small" @click="acceptVideoCall">接受</van-button>
           <van-divider vertical/>
-
-          <van-button type="danger"
-                      size="small"
-                      @click="rejectVideoCall">
-            拒绝
-          </van-button>
+          <van-button type="danger" size="small" @click="rejectVideoCall">拒绝</van-button>
         </section>
       </section>
-
     </van-notify>
   </section>
 
@@ -37,21 +23,10 @@
     </router-view>
   </section>
 
-
-
   <section>
-    <van-tabbar v-model="activatedTabBarItemIndex"
-                safe-area-inset-bottom
-                placeholder>
-
-      <van-tabbar-item icon="friends-o"
-                       to="/friends-list-view">
-        视频问诊
-      </van-tabbar-item>
-      <van-tabbar-item icon="setting-o"
-                       to="/setting-view">
-        设置
-      </van-tabbar-item>
+    <van-tabbar v-model="activatedTabBarItemIndex" safe-area-inset-bottom placeholder>
+      <van-tabbar-item icon="friends-o" to="/friends-list-view">视频问诊</van-tabbar-item>
+      <van-tabbar-item icon="setting-o" to="/setting-view">设置</van-tabbar-item>
     </van-tabbar>
   </section>
 </template>
@@ -69,7 +44,7 @@ import {useRouter} from "vue-router";
 import usePeerStore from "@/store/peer";
 
 
-let activatedTabBarItemIndex = ref(0);
+let activatedTabBarItemIndex = ref(1);
 
 let peerStore = usePeerStore();
 
