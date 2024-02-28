@@ -56,14 +56,14 @@ function getInfo() {
     },
     success(resp) {
       if (resp.code === 200) {
-        peerStore.localPeer = resp.data.id;
+        peerStore.userid = resp.data.id;
         peerStore.role = resp.data.role;
         peerStore.phone = resp.data.phone;
         peerStore.username = resp.data.username;
         peerStore.is_login = true;
         router.push("/setting-view");
-        initializePeer(peerStore.localPeer);
-        initializeWebsocket(peerStore.localPeer);
+        initializePeer(peerStore.userid);
+        initializeWebsocket(peerStore.userid);
       } else {
         console.log(resp.message)
       }

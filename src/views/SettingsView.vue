@@ -25,17 +25,17 @@ import router from "@/router";
 
 
 const getTitle = () => {
-  if (peerStore.role == 1) {
+  if (peerStore.role === 1) {
     return "祝您早日康复";
-  } else if (peerStore.role == 2) {
+  } else if (peerStore.role === 2) {
     return "悬壶济世，妙手回春";
   }
 };
 
 const getRole = () => {
-  if (peerStore.role == 1) {
+  if (peerStore.role === 1) {
     return "患者";
-  } else if (peerStore.role == 2) {
+  } else if (peerStore.role === 2) {
     return "医生";
   }
 }
@@ -44,6 +44,7 @@ const getRole = () => {
 const logout = () => {
   localStorage.removeItem("jwt_token");
   peerStore.localPeer = "";
+  peerStore.userid = "";
   peerStore.token = "";
   peerStore.is_login = false;
   router.push("/login-view");

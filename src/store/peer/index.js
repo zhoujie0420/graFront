@@ -5,9 +5,10 @@ export default defineStore("peerStore", {
         return {
             /**
              * 本地对等体对象
-             * user_id
              */
             localPeer: undefined,
+
+            userid: undefined,
             /**
              * username
              */

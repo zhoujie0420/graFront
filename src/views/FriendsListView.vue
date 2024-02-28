@@ -16,7 +16,7 @@
     <section v-for="info of userInfos"
              :key="info">
       <friend-card @click="jumpToVideoCallCallingView(info.id)">
-        {{ info.username }} / {{ info.departmentName }}
+        {{ info.username }} / {{ info.departentName }}
       </friend-card>
     </section>
   </section>
@@ -35,22 +35,23 @@ import {ref} from "vue";
 let friendStore = useFriendStore();
 const peerStore = usePeerStore();
 let router = useRouter();
-getDoctorList();
+getRole();
 let userInfos = ref([]); // 创建响应式的userInfos
 
-function getDoctorList() {
+function getRole() {
   $.ajax({
     url: `${apiUrl}/api/user/account/getRole/`,
     type: "post",
     data: {
       userList: friendStore.onlineList,
-      username: peerStore.localPeer.id,
+      username: peerStore.userid,
     },
     headers: {
       Authorization: "Bearer " + peerStore.token,
     },
     success(resp) {
       if (resp.code === 200) {
+        console.log("112121zzz" + friendStore.onlineList);
         userInfos.value = resp.data; // 更新userInfos的值
       } else {
         showToast(resp.message);
@@ -72,6 +73,7 @@ function jumpToVideoCallCallingView(calleePeerId) {
       });
     }
   } else {
+    console.log("calleePeerId" +calleePeerId);
     showToast("local peer not opened");
   }
 }
