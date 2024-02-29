@@ -9,10 +9,8 @@ import {apiUrl} from "../../../config";
 const user = usePeerStore();
 export default function initializePeer (id) {
     let peerStore = usePeerStore();
-
     let {host, port, path} = {...networkConfiguration.server.peerServer};
     let localPeer = new Peer(id, {host, port, path});
-
     localPeer.on("connection", dataConnection => {
         console.log("localPeer on connection", dataConnection);
         if (peerStore.dataConnection) {

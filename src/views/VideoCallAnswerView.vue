@@ -1,22 +1,9 @@
 <template>
   <section class="container">
-    <video class="main-video"
-           ref="mainVideo"
-           :poster="poster"
-           autoplay>
-    </video>
-
-    <video class="secondary-video"
-           ref="secondaryVideo"
-           :poster="poster"
-           autoplay>
-    </video>
-
+    <video class="main-video" ref="mainVideo" :poster="poster" autoplay></video>
+    <video class="secondary-video" ref="secondaryVideo" :poster="poster" autoplay></video>
     <section class="bottom-bar">
-      <van-button v-if="isConnected"
-                  type="danger"
-                  block
-                  @click="ringOffVideoCall">
+      <van-button v-if="isConnected" type="danger" block @click="ringOffVideoCall">
         挂断视频通话
       </van-button>
     </section>
@@ -48,17 +35,14 @@ onMounted(() => {
   getLocalUserMedia({audio: true, video: true}).then(userMedia => {
     mainVideo.value.srcObject = userMedia;
     localUserMedia.value = userMedia;
-
     //先回应
     peerStore.mediaConnection.answer(localUserMedia.value);
     peerStore.mediaConnection.on("stream", remoteUserMedia => {
       mainVideo.value.srcObject = remoteUserMedia;
-
       secondaryVideo.value.srcObject = localUserMedia.value;
       isConnected.value = true;
       showToast("connected");
     });
-
   }).catch(() => {
     showToast("failed to obtain local video media");
     router.back();
@@ -70,15 +54,12 @@ let cancel = watch(() => [peerStore.dataConnection, peerStore.mediaConnection], 
   //两个连接都为空说明对方已经挂了
   if (dataConnection === undefined && mediaConnection === undefined) {
     cancel();
-
     if (localUserMedia.value) {
       for (let track of localUserMedia.value.getTracks()) {
         track.stop();
       }
     }
-
     showToast("the other party has hung up");
-
     router.back();
   }
 }, {immediate: true});
@@ -97,23 +78,18 @@ function getLocalUserMedia(constrains) {
   throw new Error("unable to get user media");
 }
 
-
+// 关闭视频通话
 function ringOffVideoCall() {
   //先取消上面的监听
   cancel();
-
   for (let track of localUserMedia.value?.getTracks()) {
     track.stop();
   }
-
   peerStore.dataConnection.send({
     instruction: peerStore.instruction.ringOff
   });
-
   peerStore.dataConnection = undefined;
-
   peerStore.mediaConnection = undefined;
-
   router.back();
 }
 </script>

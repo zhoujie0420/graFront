@@ -42,14 +42,9 @@ import {ref, watch} from "vue";
 import {showLoadingToast} from "vant";
 import {useRouter} from "vue-router";
 import usePeerStore from "@/store/peer";
-
-
 let activatedTabBarItemIndex = ref(1);
-
 let peerStore = usePeerStore();
-
 let router = useRouter();
-
 function rejectVideoCall() {
   peerStore.dataConnection.send({
     instruction: peerStore.instruction.reject
@@ -60,7 +55,6 @@ function rejectVideoCall() {
 
 function acceptVideoCall() {
   peerStore.activateNotification = false;
-
   let loadingToast = showLoadingToast({
     duration: 0,
     forbidClick: true,
@@ -73,10 +67,8 @@ function acceptVideoCall() {
     if (newValue) {
       //关闭加载框
       loadingToast.close();
-
       //取消监听；如果不取消会出现重复执行
       cancel();
-
       router.push({
         path: "/video-call-answer-view"
       });

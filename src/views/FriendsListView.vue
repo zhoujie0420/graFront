@@ -1,22 +1,15 @@
 <template>
   <section>
-    <van-nav-bar title="视频问诊"
-                 fixed
-                 placeholder
-                 safe-area-inset-top/>
+    <van-nav-bar title="视频问诊" fixed placeholder safe-area-inset-top/>
   </section>
-
   <section>
     <van-search placeholder="请输入搜索关键词"/>
   </section>
-
-
   <section v-if="userInfos.length">
     <van-divider>轻触即可视频问诊</van-divider>
-    <section v-for="info of userInfos"
-             :key="info">
+    <section v-for="info of userInfos" :key="info">
       <friend-card @click="jumpToVideoCallCallingView(info.id)">
-        {{ info.username }} / {{ info.departentName }}
+        {{ info.username }} / {{ info.departmentName || "患者" }}
       </friend-card>
     </section>
   </section>
@@ -37,6 +30,25 @@ const peerStore = usePeerStore();
 let router = useRouter();
 getRole();
 let userInfos = ref([]); // 创建响应式的userInfos
+function jumpToVideoCallCallingView(calleePeerId) {
+  console.log("peerStore.localPeer" + peerStore.localPeer);
+
+  if (peerStore.localPeer && peerStore.localPeer.open) {
+    if (peerStore.dataConnection) {
+      showToast("currently busy");
+    } else {
+      router.push({
+        path: "/video-call-calling-view",
+        query: {
+          calleePeerId
+        }
+      });
+    }
+  } else {
+    console.log("calleePeerId" + calleePeerId);
+    showToast("local peer not opened");
+  }
+}
 
 function getRole() {
   $.ajax({
@@ -51,7 +63,6 @@ function getRole() {
     },
     success(resp) {
       if (resp.code === 200) {
-        console.log("112121zzz" + friendStore.onlineList);
         userInfos.value = resp.data; // 更新userInfos的值
       } else {
         showToast(resp.message);
@@ -60,21 +71,5 @@ function getRole() {
   });
 }
 
-function jumpToVideoCallCallingView(calleePeerId) {
-  if (peerStore.localPeer && peerStore.localPeer.open) {
-    if (peerStore.dataConnection) {
-      showToast("currently busy");
-    } else {
-      router.push({
-        path: "/video-call-calling-view",
-        query: {
-          calleePeerId
-        }
-      });
-    }
-  } else {
-    console.log("calleePeerId" +calleePeerId);
-    showToast("local peer not opened");
-  }
-}
+
 </script>

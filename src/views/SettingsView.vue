@@ -1,11 +1,7 @@
 <template>
   <section>
-    <van-nav-bar title="设置"
-                 fixed
-                 placeholder
-                 safe-area-inset-top/>
+    <van-nav-bar title="设置" fixed placeholder safe-area-inset-top/>
   </section>
-
   <section>
     <van-cell-group :title="getTitle()" inset>
       <van-cell title="用户名" :value=" peerStore.username "/>
@@ -15,10 +11,7 @@
     </van-cell-group>
     <van-button class="wide-button center-bottom" type="danger" @click="logout">退出</van-button>
   </section>
-
-
 </template>
-
 <script setup>
 import usePeerStore from "@/store/peer";
 import router from "@/router";
