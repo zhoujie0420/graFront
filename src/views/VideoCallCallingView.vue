@@ -16,10 +16,8 @@
 <script setup>
 import poster from "@/assets/poster.gif";
 import usePeerStore from "@/store/peer";
-
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-
 import {showToast} from "vant";
 
 let mainVideo = ref();

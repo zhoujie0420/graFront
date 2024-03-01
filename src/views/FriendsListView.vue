@@ -32,7 +32,6 @@ getRole();
 let userInfos = ref([]); // 创建响应式的userInfos
 function jumpToVideoCallCallingView(calleePeerId) {
   console.log("peerStore.localPeer" + peerStore.localPeer);
-
   if (peerStore.localPeer && peerStore.localPeer.open) {
     if (peerStore.dataConnection) {
       showToast("currently busy");
@@ -56,7 +55,7 @@ function getRole() {
     type: "post",
     data: {
       userList: friendStore.onlineList,
-      username: peerStore.userid,
+      userRole: peerStore.role,
     },
     headers: {
       Authorization: "Bearer " + peerStore.token,
